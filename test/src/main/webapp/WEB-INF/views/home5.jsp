@@ -35,7 +35,7 @@ body {
 		var mainlist = document.form1.mainlist.value;
 
 		mainlist = mainlist.replace(/\/+/m, " ");
-		mainlist = mainlist.replace(/\""+/m, "/");
+		mainlist = mainlist.replace(/ /m, '/');
 		mainlist = mainlist.replace(/\n/m, '\r');
 		mainlist = mainlist.replace(/\\|\?|\"|\'|\,|\.|\" "/mg, " ");
 		mainlist = mainlist
@@ -56,8 +56,7 @@ body {
 						"");
 		mainlist = mainlist.replace(/무항생제|권총|보조 기구|보조기구|음낭|군인용품|군인 용품|무좀|발기/g,
 				"");
-		mainlist = mainlist.replace(/ /m, ' ');
-//		mainlist = mainlist.trim();
+		mainlist = mainlist.trim();
 		var newlist = new Array();
 		var newlist2 = new Array();
 		var newlist3 = new Array();
@@ -87,7 +86,7 @@ body {
 			}
 		}
 		//document.form1.mainlist.value = newlist.join(" ");
-		document.form2.result.value = newlist2.join(" "+',');
+		document.form2.result.value = newlist2.join(" ");
 
 		alert(count);
 

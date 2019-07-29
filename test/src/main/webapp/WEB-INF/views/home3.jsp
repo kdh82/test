@@ -61,7 +61,7 @@ body {
 //		mainlist = mainlist.replace(/ /g, '');
 		var listvalues2 = mainlist.replace(/ /g,'/');
 		var listvalues2 = listvalues2.split("/");
-		
+		listvalues2 = listvalues2.replace(/ /g, ' ');
 		
 		var hash = new Object();
 		for ( var i in listvalues) {
@@ -76,7 +76,8 @@ body {
 		for ( var j in listvalues2) {
 			if (hash[listvalues2[j]] != 1) {
 				newlist2 = newlist2.concat(listvalues2[j]);
-				hash[listvalues2[j]] = 1;
+				if(hash[listvalues2[j]] == " ")
+						hash[listvalues2[j]] = 1;
 			} else {
 				count++;
 			}

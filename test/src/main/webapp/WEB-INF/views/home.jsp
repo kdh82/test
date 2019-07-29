@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="false"%>
@@ -11,9 +11,6 @@
 <style>
 body {
 	background-color: pink;
-}
-textarea{
-	white-space: pre;
 }
 </style>
 <script type="text/javascript">
@@ -37,10 +34,7 @@ textarea{
 		var count = 0;
 		var mainlist = document.form1.mainlist.value;
 
-		mainlist = mainlist.replace(/\/+/m, " ");
-		mainlist = mainlist.replace(/ /m, '/');
-		mainlist = mainlist.replace(/\n/m, '\r');
-		mainlist = mainlist.replace(/\\|\?|\"|\'|\,|\.|\" "/mg, " ");
+		
 		mainlist = mainlist
 				.replace(
 						/정품|인증|배송|할인|착불|추천|가성비|경옥고|직거래|산지직송|산지 직송|V라인|V 라인|해외여행|해외 여행|무료|보조제|당일/g,
@@ -59,27 +53,28 @@ textarea{
 						"");
 		mainlist = mainlist.replace(/무항생제|권총|보조 기구|보조기구|음낭|군인용품|군인 용품|무좀|발기/g,
 				"");
-		mainlist = mainlist.trim();
+//		mainlist = mainlist.replace(/(\n|\r\n|\s{2,})/mg, '<br>');
+//		mainlist = mainlist.replace(/(<br>|<br\>|<br \/>|\s{2,})/mg, '\r\n');
+		mainlist = mainlist.replace(/(\/)/mg, "");
+		mainlist = mainlist.replace(/()/mg, '/');
+		
+		mainlist = mainlist.replace(/""+/mg, "/");
+//		mainlist =mainlist.split(" ");
+		mainlist = mainlist.replace(/\\|\?|\"|\'|\,|\.|\" "/mg, "");
+//		mainlist = mainlist.trim();
 		var newlist = new Array();
 		var newlist2 = new Array();
-		var newlist3 = new Array();
 
-//				mainlist = mainlist.replace(/ /g, '');
-
-		var listvalues2 = mainlist.replace(/ /mg, '/');
+		
 		var listvalues = mainlist.split("/");
-		var listvalues2 = listvalues2.split("/");
-
-		/* Array.prototype.division = Function(n){
-			newlist3 = $("result").val();
-			var len = newlist3.length;
-			var cnt = Math.floor(len / n) + (Math.floor(len%n)>0? 1:0);
-			var tmp = [];	
-			for(var x=0;x<cnt;x++){
-				tmp.push(newlist3.splice(0, n));
-			}
-			return tmp;			
-		} */
+//		var listvalues2 = mainlist.replace(/ /mg, '/');
+//		listvalues2 = listvalues2.replace(/\s{1,}/mg, '\r\n');
+		
+		var	listvalues2 = mainlist.replace(/ /mg, '/'); //= mainlist.replace(/\s{2,}/mg, '\r\n');
+//		listvalues2 = listvalues2.replace(/""/mg, '/');
+			listvalues2 = listvalues2.replace(/(\s{1,})/mg, '\r\n');
+		 listvalues2 = listvalues2.split("/");
+		 
 
 		var hash = new Object();
 		for ( var i in listvalues) {
@@ -94,50 +89,21 @@ textarea{
 		var hash = new Object();
 		for ( var j in listvalues2) {
 			if (hash[listvalues2[j]] != 1) {
-
-				newlist2 = newlist2.concat(listvalues2[j].toUpperCase());
+				
+				newlist2 = newlist2.concat(listvalues2[j]);
 				hash[listvalues2[j]] = 1;
-			} else {
+			}else if(hash[listvalues2[j]] = null){
+				newlist2 = newlist2.concat(listvalues2[j]+"<br>");
+				hash[listvalues2[j]] = 0;
+			}else
+			  {
 				count++;
 			}
 		}
 		document.form1.mainlist.value = newlist.join(" ");
-		document.form2.result.value = newlist2.join(" ");
-		//		document.form1.mainlist.value = escape.repalce(newlist.join(" "), "\\","%");
-		/* Array.prototype.division = Function(n){
-			newlist2 = this;
-			var len = arr.length;
-			var cnt = Math.floor(len / n) + (Math.floor(len%n)>0? 1:0);
-			var tmp = [];
-			for(var x=0;x<cnt;x++){
-				tmp.push(arr.splice(0, n));
-			}
-			return tmp;
-			
-			
-		} */
-		//		newlist2.join(" ");
-		/* 	 testC = newlist2.join(" ");
-			 testClear1 = testC.replace(/[^&nbsp\s]/m,"");
-			 testClear1 = testClear1.split(" ");
-			 
-			 var hash = new Object();
-				for ( var k in testClear1) {
-					if (hash[testClear1[k]] != 1) {
-						newlist3 = newlist3.concat(testClear1[k]);
-						
-						hash[testClear1[k]] = 1;
-					} else {
-						count++;
-					}
-				}
-		 */
-		/* newlist2 = newlist3.filter( function( item, index, inputArray){
-			return inputArray.indexOf(item) == index;
-		}); */
-		//		 document.form2.result.value = newlist3.join(" ");
-		alert(count);
+		document.form2.result.value = newlist2.join("");
 
+		alert(count);
 	}
 </script>
 <body>
@@ -155,8 +121,8 @@ textarea{
 				<TEXTAREA name="result" id="result"
 					style="width: 650; height: 640; font-weight: bold;"></TEXTAREA>
 			</div>
+		</form>
 	</div>
-	</form>
 	<div style="width: 650px; float: left;">
 		<FORM ACTION="" NAME="form1" ID="form1">
 			<TABLE style="border: 1px solid black;" BORDERCOLOR="#FF0000"
